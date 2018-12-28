@@ -1,0 +1,1 @@
+prompt_s1ck94_setup

@@ -1,6 +1,8 @@
+# vim:et sts=2 sw=2 ft=zsh
 #
-# Minimal theme
-# https://github.com/S1cK94/minimal
+# s1ck94 theme
+#
+# Implemented after the now extinct version of minimal from S1cK94.
 #
 # Requires the `git-info` zmodule to be included in the .zimrc file.
 
@@ -13,15 +15,15 @@ function {
   ERR_COLOR='%F{red}'
 }
 
-prompt_minimal_user() {
+prompt_s1ck94_user() {
   print -n '%(!.${ON_COLOR}.${OFF_COLOR})${PROMPT_CHAR}'
 }
 
-prompt_minimal_jobs() {
+prompt_s1ck94_jobs() {
   print -n '%(1j.${ON_COLOR}.${OFF_COLOR})${PROMPT_CHAR}'
 }
 
-prompt_minimal_vimode() {
+prompt_s1ck94_vimode() {
   local color
 
   case ${KEYMAP} in
@@ -36,16 +38,16 @@ prompt_minimal_vimode() {
   print -n "${color}${PROMPT_CHAR}"
 }
 
-prompt_minimal_status() {
+prompt_s1ck94_status() {
   print -n '%(0?.${ON_COLOR}.${ERR_COLOR})${PROMPT_CHAR}'
 }
 
-prompt_minimal_path() {
+prompt_s1ck94_path() {
   local path_color='%F{244}'
   print -n "${path_color}${$(short_pwd)//\//%f\/${path_color}}%f"
 }
 
-prompt_minimal_git() {
+prompt_s1ck94_git() {
   if [[ -n ${git_info} ]]; then
     print -n " ${(e)git_info[color]}${(e)git_info[prompt]}"
   fi
@@ -56,11 +58,11 @@ function zle-line-init zle-keymap-select {
   zle -R
 }
 
-prompt_minimal_precmd() {
+prompt_s1ck94_precmd() {
   (( ${+functions[git-info]} )) && git-info
 }
 
-prompt_minimal_setup() {
+prompt_s1ck94_setup() {
   zle -N zle-line-init
   zle -N zle-keymap-select
 
@@ -69,7 +71,7 @@ prompt_minimal_setup() {
 
   prompt_opts=(cr percent sp subst)
 
-  add-zsh-hook precmd prompt_minimal_precmd
+  add-zsh-hook precmd prompt_s1ck94_precmd
 
   zstyle ':zim:git-info:branch' format '%b'
   zstyle ':zim:git-info:commit' format '%c'
@@ -81,8 +83,8 @@ prompt_minimal_setup() {
     'prompt' '%b%c' \
     'color' '$(coalesce "%D" "%V" "%B" "%A" "${ON_COLOR}")'
 
-  PROMPT="$(prompt_minimal_user)$(prompt_minimal_jobs)\$(prompt_minimal_vimode)$(prompt_minimal_status)%f "
-  RPROMPT='$(prompt_minimal_path)$(prompt_minimal_git)'
+  PROMPT="$(prompt_s1ck94_user)$(prompt_s1ck94_jobs)\$(prompt_s1ck94_vimode)$(prompt_s1ck94_status)%f "
+  RPROMPT='$(prompt_s1ck94_path)$(prompt_s1ck94_git)'
 }
 
-prompt_minimal_setup "$@"
+prompt_s1ck94_setup "$@"
