@@ -6,51 +6,31 @@
 #
 # Requires the `git-info` zmodule to be included in the .zimrc file.
 
-# Global variables
-function {
-  PROMPT_CHAR='❯'
+prompt_s1ck94_help () {
+  cat <<EOH
+This prompt can be customized with:
 
-  ON_COLOR='%F{green}'
-  OFF_COLOR='%f'
-  ERR_COLOR='%F{red}'
-}
+    prompt s1ck94 [prompt_char] [on_color] [err_color]
 
-prompt_s1ck94_user() {
-  print -n '%(!.${ON_COLOR}.${OFF_COLOR})${PROMPT_CHAR}'
-}
-
-prompt_s1ck94_jobs() {
-  print -n '%(1j.${ON_COLOR}.${OFF_COLOR})${PROMPT_CHAR}'
+The respective default values for each parameter are ❯, green, and red.
+EOH
 }
 
 prompt_s1ck94_vimode() {
-  local color
-
   case ${KEYMAP} in
-    main|viins)
-      color=${ON_COLOR}
-      ;;
-    *)
-      color=${OFF_COLOR}
-      ;;
+    main|viins) print -n ${1} ;;
+    *) print -n ${2} ;;
   esac
-
-  print -n "${color}${PROMPT_CHAR}"
 }
 
-prompt_s1ck94_status() {
-  print -n '%(0?.${ON_COLOR}.${ERR_COLOR})${PROMPT_CHAR}'
-}
-
-prompt_s1ck94_path() {
-  local path_color='%F{244}'
-  print -n "${path_color}${$(short_pwd)//\//%f\/${path_color}}%f"
-}
-
-prompt_s1ck94_git() {
-  if [[ -n ${git_info} ]]; then
-    print -n " ${(e)git_info[color]}${(e)git_info[prompt]}"
+prompt_s1ck94_pwd() {
+  local separator='%F{244}/%f'
+  local current_dir="${PWD/#${HOME}/~}"
+  if [[ ${current_dir} != '~' ]]; then
+    # Can't use ${separator} with curly braces below. See Parameter Expansion Flags in zshexpn(1)
+    current_dir="${${(@pj:$separator:M)${(@s:/:)current_dir:h}#?}%/}${separator}${current_dir:t}"
   fi
+  print -n ${current_dir}
 }
 
 function zle-line-init zle-keymap-select {
@@ -63,28 +43,43 @@ prompt_s1ck94_precmd() {
 }
 
 prompt_s1ck94_setup() {
+  local prompt_char="${1:-❯}"
+  local on_color="%F{${2:-green}}"
+  local off_color='%f'
+  local err_color="%F{${3:-red}}"
+  local user_prompt="%(!.${on_color}.${off_color})${prompt_char}"
+  local jobs_prompt="%(1j.${on_color}.${off_color})${prompt_char}"
+  local vimode_prompt="\$(prompt_s1ck94_vimode ${on_color} ${off_color})${prompt_char}"
+  local status_prompt="%(0?.${on_color}.${err_color})${prompt_char}"
+
   zle -N zle-line-init
   zle -N zle-keymap-select
 
-  autoload -Uz colors && colors
-  autoload -Uz add-zsh-hook
+  autoload -Uz add-zsh-hook && add-zsh-hook precmd prompt_s1ck94_precmd
 
   prompt_opts=(cr percent sp subst)
 
-  add-zsh-hook precmd prompt_s1ck94_precmd
-
   zstyle ':zim:git-info:branch' format '%b'
   zstyle ':zim:git-info:commit' format '%c'
-  zstyle ':zim:git-info:dirty' format '${ERR_COLOR}'
-  zstyle ':zim:git-info:diverged' format '${ERR_COLOR}'
-  zstyle ':zim:git-info:behind' format '%F{11}'
-  zstyle ':zim:git-info:ahead' format '${OFF_COLOR}'
+  zstyle ':zim:git-info:dirty' format ${err_color}
+  zstyle ':zim:git-info:diverged' format ${err_color}
+  zstyle ':zim:git-info:behind' format '%F{yellow}'
+  zstyle ':zim:git-info:ahead' format ${off_color}
   zstyle ':zim:git-info:keys' format \
-    'prompt' '%b%c' \
-    'color' '$(coalesce "%D" "%V" "%B" "%A" "${ON_COLOR}")'
+    'prompt' " \$(coalesce %D %V %B %A ${on_color})%b%c"
 
-  PROMPT="$(prompt_s1ck94_user)$(prompt_s1ck94_jobs)\$(prompt_s1ck94_vimode)$(prompt_s1ck94_status)%f "
-  RPROMPT='$(prompt_s1ck94_path)$(prompt_s1ck94_git)'
+  PS1="${user_prompt}${jobs_prompt}${vimode_prompt}${status_prompt}%f "
+  RPS1='$(prompt_s1ck94_pwd)${(e)git_info[prompt]}'
 }
 
-prompt_s1ck94_setup "$@"
+prompt_s1ck94_preview () {
+  if (( # )); then
+    prompt_preview_theme s1ck94 "${@}"
+  else
+    prompt_preview_theme s1ck94
+    print
+    prompt_preview_theme s1ck94 ']'
+  fi
+}
+
+prompt_s1ck94_setup "${@}"
