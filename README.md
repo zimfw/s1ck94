@@ -3,6 +3,8 @@ s1ck94
 
 A fork of the (first deprecated, now extinct) minimal prompt by S1cK94.
 
+![s1ck94 theme]
+
 What does it show?
 ------------------
 
@@ -24,8 +26,7 @@ Let's breakdown the left prompt (from left to right):
 On the right prompt:
 
   * The short pwd.
-  * Git branch name, or commit short hash when in
-    ['detached HEAD' state](http://gitfaq.org/articles/what-is-a-detached-head.html),
+  * Git branch name, or commit short hash when in ['detached HEAD' state],
     only when you are in a git repo. Their color show different statues:
     * Error color if dirty or diverged from remote.
     * Yellow if behind.
@@ -48,5 +49,8 @@ variable is not defined, the respective default value is used.
 Requirements
 ------------
 
-Requires Zim's [`git-info`](https://github.com/zimfw/git-info) module to show
-git information.
+Requires Zim's [git-info] module to show git information.
+
+[s1ck94 theme]: https://zimfw.github.io/images/prompts/s1ck94.png
+['detached HEAD' state]: http://gitfaq.org/articles/what-is-a-detached-head.html
+[git-info]: https://github.com/zimfw/git-info
