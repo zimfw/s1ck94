@@ -24,10 +24,11 @@ _prompt_s1ck94_pwd() {
   print -n ${current_dir}
 }
 
-function zle-line-init zle-keymap-select {
+zle-keymap-select() {
   zle reset-prompt
   zle -R
 }
+zle -N zle-keymap-select
 
 () {
   : ${PROMPT_CHAR=❯}
@@ -38,10 +39,7 @@ function zle-line-init zle-keymap-select {
   local jobs_prompt='%F{%(1j.${ON_COLOR}.${OFF_COLOR})}${PROMPT_CHAR}'
   local status_prompt='%F{%(0?.${ON_COLOR}.${ERR_COLOR})}${PROMPT_CHAR}'
 
-  zle -N zle-line-init
-  zle -N zle-keymap-select
-
-  setopt nopromptbang promptcr promptpercent promptsp promptsubst
+  setopt nopromptbang prompt{cr,percent,sp,subst}
 
   typeset -gA git_info
   if (( ${+functions[git-info]} )); then
