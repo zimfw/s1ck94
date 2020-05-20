@@ -3,7 +3,7 @@ s1ck94
 
 A fork of the (first deprecated, now extinct) minimal prompt by S1cK94.
 
-![s1ck94 theme]
+<img width="706" src="https://zimfw.github.io/images/prompts/s1ck94@2.png">
 
 What does it show?
 ------------------
@@ -51,6 +51,5 @@ Requirements
 
 Requires Zim's [git-info] module to show git information.
 
-[s1ck94 theme]: https://zimfw.github.io/images/prompts/s1ck94.png
 ['detached HEAD' state]: http://gitfaq.org/articles/what-is-a-detached-head.html
 [git-info]: https://github.com/zimfw/git-info

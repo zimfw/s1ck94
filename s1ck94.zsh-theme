@@ -8,8 +8,8 @@
 
 _prompt_s1ck94_vimode() {
   case ${KEYMAP} in
-    main|viins) print -n "%F{${ON_COLOR}}" ;;
-    *) print -n "%F{${OFF_COLOR}}" ;;
+    vicmd) print -n "%F{${OFF_COLOR}}" ;;
+    *) print -n "%F{${ON_COLOR}}" ;;
   esac
   print -n ${PROMPT_CHAR}
 }
