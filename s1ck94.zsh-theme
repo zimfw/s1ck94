@@ -16,10 +16,10 @@ _prompt_s1ck94_vimode() {
 
 _prompt_s1ck94_pwd() {
   local separator='%F{244}/%f'
-  local current_dir="${PWD/#${HOME}/~}"
+  local current_dir=${(%):-%~}
   if [[ ${current_dir} != '~' ]]; then
     # Can't use ${separator} with curly braces below. See Parameter Expansion Flags in zshexpn(1)
-    current_dir="${${(@pj:$separator:M)${(@s:/:)current_dir:h}#?}%/}${separator}${current_dir:t}"
+    current_dir="${${(@pj:$separator:M)${(@s:/:)current_dir:h}#?}%${separator}}${separator}${current_dir:t}"
   fi
   print -n ${current_dir}
 }
