@@ -24,11 +24,12 @@ _prompt_s1ck94_pwd() {
   print -n ${current_dir}
 }
 
-zle-keymap-select() {
+_prompt_s1ck94_keymap_select() {
   zle reset-prompt
   zle -R
 }
-zle -N zle-keymap-select
+autoload -Uz add-zle-hook-widget && \
+    add-zle-hook-widget -Uz keymap-select _prompt_s1ck94_keymap_select
 
 () {
   : ${PROMPT_CHAR=❯}
