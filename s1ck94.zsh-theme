@@ -28,17 +28,22 @@ _prompt_s1ck94_keymap_select() {
   zle reset-prompt
   zle -R
 }
-autoload -Uz add-zle-hook-widget && \
-    add-zle-hook-widget -Uz keymap-select _prompt_s1ck94_keymap_select
+if autoload -Uz is-at-least && is-at-least 5.3; then
+  autoload -Uz add-zle-hook-widget && \
+      add-zle-hook-widget -Uz keymap-select _prompt_s1ck94_keymap_select
+else
+  zle -N zle-keymap-select _prompt_s1ck94_keymap_select
+fi
 
 () {
   : ${PROMPT_CHAR=❯}
   : ${ON_COLOR=green}
   : ${OFF_COLOR=default}
   : ${ERR_COLOR=red}
-  local user_prompt='%F{%(!.${ON_COLOR}.${OFF_COLOR})}${PROMPT_CHAR}'
-  local jobs_prompt='%F{%(1j.${ON_COLOR}.${OFF_COLOR})}${PROMPT_CHAR}'
-  local status_prompt='%F{%(0?.${ON_COLOR}.${ERR_COLOR})}${PROMPT_CHAR}'
+  local prompt_fmt=('%F{%(' '.${ON_COLOR}.' ')}${PROMPT_CHAR}')
+  local user_param=('!'  '${OFF_COLOR}' '')
+  local jobs_param=('1j' '${OFF_COLOR}' '')
+  local stat_param=('0?' '${ERR_COLOR}' '')
 
   setopt nopromptbang prompt{cr,percent,sp,subst}
 
@@ -56,6 +61,6 @@ autoload -Uz add-zle-hook-widget && \
     autoload -Uz add-zsh-hook && add-zsh-hook precmd git-info
   fi
 
-  PS1="${user_prompt}${jobs_prompt}\$(_prompt_s1ck94_vimode)${status_prompt}%f "
+  PS1="${(@j::)prompt_fmt:^user_param}${(@j::)prompt_fmt:^jobs_param}\$(_prompt_s1ck94_vimode)${(@j::)prompt_fmt:^stat_param}%f "
   RPS1='$(_prompt_s1ck94_pwd)${(e)git_info[rprompt]}%f'
 }
