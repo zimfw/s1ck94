@@ -25,9 +25,9 @@ Let's breakdown the left prompt (from left to right):
 
 On the right prompt:
 
-  * The short pwd.
+  * The current working directory.
   * Git branch name, or commit short hash when in ['detached HEAD' state],
-    only when you are in a git repo. Their color show different statues:
+    only when you are in a git repo. The segment color shows different statues:
     * Error color if dirty or diverged from remote.
     * Yellow if behind.
     * Off color if ahead.
@@ -46,10 +46,21 @@ variable is not defined, the respective default value is used.
 | OFF_COLOR   | Off color        | default       |
 | ERR_COLOR   | Error color      | red           |
 
+Advanced settings
+-----------------
+
+You can customize how the current working directory is shown with the
+[prompt-pwd module settings].
+
+These advanced settings must be overridden after where the theme is initialized.
+
 Requirements
 ------------
 
-Requires Zim's [git-info] module to show git information.
+Requires Zim's [prompt-pwd] module to show the current working directory, and
+[git-info] to show git information.
 
 ['detached HEAD' state]: http://gitfaq.org/articles/what-is-a-detached-head.html
+[prompt-pwd module settings]: https://github.com/zimfw/prompt-pwd/blob/master/README.md#settings
+[prompt-pwd]: https://github.com/zimfw/prompt-pwd
 [git-info]: https://github.com/zimfw/git-info
