@@ -60,7 +60,7 @@ Requirements
 Requires Zim's [prompt-pwd] module to show the current working directory, and
 [git-info] to show git information.
 
-['detached HEAD' state]: http://gitfaq.org/articles/what-is-a-detached-head.html
+['detached HEAD' state]: https://git-scm.com/docs/git-checkout#_detached_head
 [prompt-pwd module settings]: https://github.com/zimfw/prompt-pwd/blob/master/README.md#settings
 [prompt-pwd]: https://github.com/zimfw/prompt-pwd
 [git-info]: https://github.com/zimfw/git-info
