@@ -14,11 +14,12 @@ _prompt_s1ck94_vimode() {
   print -n ${PROMPT_CHAR}
 }
 
-zle-keymap-select() {
-  zle reset-prompt
-  zle -R
-}
-zle -N zle-keymap-select
+if (( ! ${+functions[_prompt_s1ck94_keymap_select]} )); then
+  functions[_prompt_s1ck94_keymap_select]=${widgets[zle-keymap-select]#user:}'
+zle reset-prompt
+zle -R'
+  zle -N zle-keymap-select _prompt_s1ck94_keymap_select
+fi
 
 if (( ! ${+PROMPT_CHAR} )) typeset -g PROMPT_CHAR=❯
 if (( ! ${+ON_COLOR} )) typeset -g ON_COLOR=green
