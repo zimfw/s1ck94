@@ -52,13 +52,15 @@ Advanced settings
 You can customize how the current working directory is shown with the
 [prompt-pwd module settings].
 
-These advanced settings must be overridden after where the theme is initialized.
+These advanced settings must be defined at the bottom of your `~/.zshrc`, after
+the modules are initialized with `source ${ZIM_HOME}/init.zsh`, in order to
+override the theme defaults.
 
 Requirements
 ------------
 
-Requires Zim's [prompt-pwd] module to show the current working directory, and
-[git-info] to show git information.
+Requires Zim Framework's [prompt-pwd] module to show the current working
+directory, and [git-info] to show git information.
 
 ['detached HEAD' state]: https://git-scm.com/docs/git-checkout#_detached_head
 [prompt-pwd module settings]: https://github.com/zimfw/prompt-pwd/blob/master/README.md#settings
